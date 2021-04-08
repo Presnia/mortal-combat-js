@@ -18,7 +18,7 @@ const player2 = {
   }
 };
 
-const createPlayer = (players, obj) => {
+const createPlayer = (players, hero) => {
   const arenas = document.querySelector('.arenas');
 
   const player = document.createElement('div');
@@ -29,17 +29,17 @@ const createPlayer = (players, obj) => {
 
   const life = document.createElement('div');
   life.classList.add('life');
-  life.style.width = `${obj.hp}%`;
+  life.style.width = `${hero.hp}%`;
 
   const name = document.createElement('div');
   name.classList.add('name');
-  name.innerText = obj.name;
+  name.innerText = hero.name;
 
   const character = document.createElement('div');
   character.classList.add('character');
 
   const image = document.createElement('img')
-  image.src = obj.img;
+  image.src = hero.img;
   
   progressBar.append(life, name);
   character.append(image);
