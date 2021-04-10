@@ -22,8 +22,10 @@ const player2 = {
 
 const createElement = (tag, className) => {
   $tag = document.createElement(tag);
-  $tag.classList.add(className);
-
+  if (className) {
+    $tag.classList.add(className);
+  }
+  
   return $tag;
 }
 
@@ -42,8 +44,9 @@ const createPlayer = (players, hero) => {
   progressBar.append(life, name);
   character.append(image);
   player.append(progressBar, character);
-  arenas.append(player);
+
+  return player;
 };
 
-createPlayer('player1', player1);
-createPlayer('player2', player2);
+arenas.append(createPlayer('player1', player1));
+arenas.append(createPlayer('player2', player2));
