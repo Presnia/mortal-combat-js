@@ -3,7 +3,7 @@ const player1 = {
   hp: 77,
   img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
   weapon: ['sabre of light', 'sawblade', 'sword', 'sai', 'sektors rocket'],
-  attack: function () {
+  attack: () => {
     console.log(this.name + 'Fight...');
   }
 };
@@ -13,7 +13,7 @@ const player2 = {
   hp: 88,
   img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
   weapon: ['kitana', 'sword', 'sai', 'sento', 'saber teeth'],
-  attack: function () {
+  attack: () => {
     console.log(this.name + 'Fight...');
   }
 };
