@@ -1,6 +1,8 @@
 const arenas = document.querySelector('.arenas');
+const randomButton = document.querySelector('.button');
 
 const player1 = {
+  player: 1,
   name: 'Scorpion',
   hp: 77,
   img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
@@ -11,8 +13,9 @@ const player1 = {
 };
 
 const player2 = {
+  player: 2,
   name: 'Kitana',
-  hp: 88,
+  hp: 95,
   img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
   weapon: ['kitana', 'sword', 'sai', 'sento', 'saber teeth'],
   attack: () => {
@@ -29,8 +32,8 @@ const createElement = (tag, className) => {
   return $tag;
 }
 
-const createPlayer = (players, hero) => {
-  const player = createElement('div', players);
+const createPlayer = (hero) => {
+  const player = createElement('div', `player${hero.player}`);
   const progressBar = createElement('div', 'progressbar');
   const character = createElement('div','character');
   const life = createElement('div', 'life');
@@ -48,5 +51,29 @@ const createPlayer = (players, hero) => {
   return player;
 };
 
-arenas.append(createPlayer('player1', player1));
-arenas.append(createPlayer('player2', player2));
+const changeHP = (player) => {
+  const playerLife = document.querySelector('.player' + player.player + ' .life');
+  player.hp -= 20;
+  playerLife.style.width = player.hp + '%';
+
+  if (player.hp < 0) {
+    arenas.append(playerLose(player.name));
+  }
+};
+
+
+const playerLose = (name) => {
+  const loseTitle = createElement('div', 'loseTitle');
+  loseTitle.innerText = name + ' lose';
+
+  return loseTitle;
+};
+
+randomButton.addEventListener('click', () => {
+  console.log('==> Click Random Button');
+  changeHP(player1);
+  changeHP(player2);
+});
+
+arenas.append(createPlayer(player1));
+arenas.append(createPlayer(player2));
