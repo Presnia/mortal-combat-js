@@ -274,3 +274,8 @@ body {
     font-family: "Mortal Kombat 3";
 }
 
+.button[disabled] {
+    background-color: rgb(235, 235, 235);
+    color: #f5d100;
+}
+
