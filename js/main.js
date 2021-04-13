@@ -3,6 +3,9 @@ const randomButton = document.querySelector('.button');
 
 const player1 = {
   player: 1,
+  changeHP: changeHP,
+  renderHP: renderHP,
+  elHP: elHP,
   name: 'Scorpion',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
@@ -14,6 +17,9 @@ const player1 = {
 
 const player2 = {
   player: 2,
+  changeHP: changeHP,
+  renderHP: renderHP,
+  elHP: elHP,
   name: 'Kitana',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
@@ -55,32 +61,43 @@ function getRandom(n) {
   return Math.ceil(Math.random() * n);
 }
 
-const changeHP = (player) => {
-  const playerLife = document.querySelector(`.player${player.player} .life`);
-  player.hp -= getRandom(20);
+function changeHP(num) {
+  this.hp -= num;
 
-  if (player.hp <= 0) {
-    player.hp = 0;
+  if (this.hp <= 0) {
+    this.hp = 0;
   }
 
-  playerLife.style.width = `${player.hp}%`;
+  return this.hp;
 };
 
-const playerWins = (name) => {
-  const loseTitle = createElement('div', 'loseTitle');
+function elHP() {
+  const playerLife = document.querySelector(`.player${this.player} .life`);
+
+  return playerLife;
+};
+
+function renderHP() {
+  return this.elHP().style.width = `${this.hp}%`;
+};
+
+function playerWins(name) {
+  const winsTitle = createElement('div', 'winsTitle');
   if (name) {
-    loseTitle.innerText = `${name} wins`;
+    winsTitle.innerText = `${name} wins`;
   } else {
-    loseTitle.innerText = 'draw';
+    winsTitle.innerText = 'draw';
   }
   
-
-  return loseTitle;
+  return winsTitle;
 };
 
-randomButton.addEventListener('click', () => {
-  changeHP(player1);
-  changeHP(player2);
+randomButton.addEventListener('click', function () {
+  player1.changeHP(getRandom(20));
+  player2.changeHP(getRandom(20));
+
+  player1.renderHP();
+  player2.renderHP();
 
   if (player1.hp === 0 || player2.hp === 0) {
     randomButton.disabled = true;
