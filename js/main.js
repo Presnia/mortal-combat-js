@@ -51,14 +51,18 @@ const createPlayer = (hero) => {
   return player;
 };
 
+function getRandom(n) {
+  return Math.ceil(Math.random() * n);
+}
+
 const changeHP = (player) => {
   const playerLife = document.querySelector(`.player${player.player} .life`);
-  player.hp -= Math.ceil(Math.random() * 10);
+  player.hp -= getRandom(20);
   playerLife.style.width = `${player.hp}%`;
 
   if (player.hp <= 0) {
     arenas.append(playerLose(player.name));
-    player.hp === 0;
+    player.hp = 0;
     randomButton.disabled = true;
   }
 };
