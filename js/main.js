@@ -92,7 +92,7 @@ function playerWins(name) {
   return winsTitle;
 };
 
-randomButton.addEventListener('click', function () {
+randomButton.addEventListener('click', () => {
   player1.changeHP(getRandom(20));
   player2.changeHP(getRandom(20));
 
