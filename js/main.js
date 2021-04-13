@@ -92,6 +92,15 @@ function playerWins(name) {
   return winsTitle;
 };
 
+const createReloadButton = () => {
+  const reloadWrap = createElement('div', 'reloadWrap');
+  const button = createElement('button', 'button');
+  button.innerText = 'Restart';
+
+  reloadWrap.append(button);
+  return reloadWrap;
+};
+
 randomButton.addEventListener('click', () => {
   player1.changeHP(getRandom(20));
   player2.changeHP(getRandom(20));
@@ -101,6 +110,12 @@ randomButton.addEventListener('click', () => {
 
   if (player1.hp === 0 || player2.hp === 0) {
     randomButton.disabled = true;
+    arenas.append(createReloadButton());
+
+    const reloadButton = document.querySelector('.reloadWrap');
+    reloadButton.addEventListener('click', () => {
+      window.location.reload();
+    })
   }
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
