@@ -58,19 +58,22 @@ function getRandom(n) {
 const changeHP = (player) => {
   const playerLife = document.querySelector(`.player${player.player} .life`);
   player.hp -= getRandom(20);
-  playerLife.style.width = `${player.hp}%`;
 
   if (player.hp <= 0) {
-    arenas.append(playerLose(player.name));
     player.hp = 0;
-    randomButton.disabled = true;
   }
+
+  playerLife.style.width = `${player.hp}%`;
 };
 
-
-const playerLose = (name) => {
+const playerWins = (name) => {
   const loseTitle = createElement('div', 'loseTitle');
-  loseTitle.innerText = `${name} lose`;
+  if (name) {
+    loseTitle.innerText = `${name} wins`;
+  } else {
+    loseTitle.innerText = 'draw';
+  }
+  
 
   return loseTitle;
 };
@@ -78,6 +81,18 @@ const playerLose = (name) => {
 randomButton.addEventListener('click', () => {
   changeHP(player1);
   changeHP(player2);
+
+  if (player1.hp === 0 || player2.hp === 0) {
+    randomButton.disabled = true;
+  }
+
+  if (player1.hp === 0 && player1.hp < player2.hp) {
+    arenas.append(playerWins(player2.name));
+  } else if (player2.hp === 0 && player2.hp < player1.hp) {
+    arenas.append(playerWins(player1.name));
+  } else if (player1.hp === 0 && player2.hp === 0) {
+    arenas.append(playerWins());
+  }
 });
 
 arenas.append(createPlayer(player1));
