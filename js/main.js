@@ -145,8 +145,6 @@ formFight.addEventListener('submit', e => {
 
     item.checked = false;
   }
-  console.log('==> attack', attack)
-  console.log('==> enemy', enemy)
 
   if (attack.hit !== enemy.defence) {
     player1.changeHP(attack.value);
