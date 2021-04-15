@@ -3,9 +3,9 @@ const randomButton = document.querySelector('.button');
 
 const player1 = {
   player: 1,
-  changeHP: changeHP,
-  renderHP: renderHP,
-  elHP: elHP,
+  changeHP,
+  renderHP,
+  elHP,
   name: 'Scorpion',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
@@ -17,9 +17,9 @@ const player1 = {
 
 const player2 = {
   player: 2,
-  changeHP: changeHP,
-  renderHP: renderHP,
-  elHP: elHP,
+  changeHP,
+  renderHP,
+  elHP,
   name: 'Kitana',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
@@ -94,10 +94,14 @@ function playerWins(name) {
 
 const createReloadButton = () => {
   const reloadWrap = createElement('div', 'reloadWrap');
-  const button = createElement('button', 'button');
-  button.innerText = 'Restart';
+  const reloadButton = createElement('button', 'button');
+  reloadButton.innerText = 'Restart';
 
-  reloadWrap.append(button);
+  reloadButton.addEventListener('click', () => {
+      window.location.reload();
+    });
+
+  reloadWrap.append(reloadButton);
   return reloadWrap;
 };
 
@@ -111,11 +115,6 @@ randomButton.addEventListener('click', () => {
   if (player1.hp === 0 || player2.hp === 0) {
     randomButton.disabled = true;
     arenas.append(createReloadButton());
-
-    const reloadButton = document.querySelector('.reloadWrap');
-    reloadButton.addEventListener('click', () => {
-      window.location.reload();
-    })
   }
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
