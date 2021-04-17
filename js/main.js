@@ -2,6 +2,9 @@ const arenas = document.querySelector('.arenas');
 const formFight = document.querySelector('.control');
 const chat = document.querySelector('.chat');
 
+const date = new Date();
+const time = `${date.getHours()}:${date.getMinutes()}`;
+
 const HIT = {
     head: 30,
     body: 25,
@@ -194,10 +197,14 @@ const showResult = () => {
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
     arenas.append(playerWins(player2.name));
+    logsCases('end', player2, player1);
   } else if (player2.hp === 0 && player2.hp < player1.hp) {
     arenas.append(playerWins(player1.name));
+    logsCases('end', player1, player2);
+
   } else if (player1.hp === 0 && player2.hp === 0) {
     arenas.append(playerWins());
+    logsCases('draw');
   }
 };
 
@@ -207,6 +214,49 @@ const generateLogs = (type, player1, player2) => {
               .replace('[playerDefence]', player2.name);
   const el = `<p>${text}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
+};
+
+const initialLog = (type, player1, player2) => {
+  const text = logs[type]
+              .replace('[player1]', player1.name)
+              .replace('[player2]', player2.name).replace('[time]', time);
+  const el = `<p>${text}</p>`;
+  chat.insertAdjacentHTML("afterbegin", el);
+};
+
+const gameOverLog = (type, player1, player2) => {
+  const text = logs[type][getRandom(type.length)]
+              .replace('[playerWins]', player1.name)
+              .replace('[playerLose]', player2.name);
+  const el = `<p>${text}</p>`;
+  chat.insertAdjacentHTML("afterbegin", el);
+};
+
+const drawLog = (type) => {
+  const text = logs[type];
+  const el = `<p>${text}</p>`;
+  chat.insertAdjacentHTML("afterbegin", el);
+}
+
+const logsCases = (type) => {
+  switch (type) {
+    case 'start':
+      initialLog('start', player1, player2);
+      break;
+    case 'hit':
+      generateLogs('hit', player1, player2);
+    case 'defence':
+      generateLogs('defence', player1, player2);
+      break;
+    case 'end':
+      gameOverLog('end', player1, player2);
+      break;
+    case 'draw':
+      drawLog('draw');
+      break;
+      default:
+        initialLog('start', player1, player2);
+  } 
 }
 
 formFight.addEventListener('submit', e => {
@@ -217,14 +267,24 @@ formFight.addEventListener('submit', e => {
   if (player.defence !== enemy.hit) {
     player1.changeHP(enemy.value);
     player1.renderHP();
-    generateLogs('hit', player2, player1);
+    logsCases('hit', player2, player1);
   } 
 
   if (enemy.defence !== player.hit) {
     player2.changeHP(player.value);
     player2.renderHP();
-    generateLogs('hit', player1, player2);
+    logsCases('hit', player1, player2);
   } 
+
+  if (player.defence === enemy.hit) {
+    logsCases('defence', player2, player1);
+  }
+
+  if (enemy.defence === player.hit) {
+    logsCases('defence', player1, player2);
+  }
 
   showResult();
 });
+
+logsCases('start');
