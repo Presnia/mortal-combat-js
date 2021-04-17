@@ -1,11 +1,20 @@
 const arenas = document.querySelector('.arenas');
-const randomButton = document.querySelector('.button');
+
+const formFight = document.querySelector('.control');
+
+const HIT = {
+    head: 30,
+    body: 25,
+    foot: 20,
+};
+
+const ATTACK = ['head', 'body', 'foot'];
 
 const player1 = {
   player: 1,
-  changeHP: changeHP,
-  renderHP: renderHP,
-  elHP: elHP,
+  changeHP,
+  renderHP,
+  elHP,
   name: 'Scorpion',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
@@ -17,9 +26,9 @@ const player1 = {
 
 const player2 = {
   player: 2,
-  changeHP: changeHP,
-  renderHP: renderHP,
-  elHP: elHP,
+  changeHP,
+  renderHP,
+  elHP,
   name: 'Kitana',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
@@ -94,28 +103,66 @@ function playerWins(name) {
 
 const createReloadButton = () => {
   const reloadWrap = createElement('div', 'reloadWrap');
-  const button = createElement('button', 'button');
-  button.innerText = 'Restart';
+  const reloadButton = createElement('button', 'button');
+  reloadButton.innerText = 'Restart';
 
-  reloadWrap.append(button);
+  reloadButton.addEventListener('click', () => {
+      window.location.reload();
+    });
+
+  reloadWrap.append(reloadButton);
   return reloadWrap;
 };
 
-randomButton.addEventListener('click', () => {
-  player1.changeHP(getRandom(20));
-  player2.changeHP(getRandom(20));
+arenas.append(createPlayer(player1));
+arenas.append(createPlayer(player2));
+
+function enemyAttack() {
+  const hit = ATTACK[getRandom(3) - 1];
+  const defence = ATTACK[getRandom(3) - 1];
+  
+  return {
+    value: getRandom(HIT[hit]),
+    hit,
+    defence,
+  }
+}
+
+formFight.addEventListener('submit', e => {
+  e.preventDefault();
+  const enemy = enemyAttack();
+  const attack = {};
+  
+  for (let item of formFight) {
+    if (item.checked && item.name === 'hit') {
+      attack.value = getRandom(HIT[item.value]);
+      attack.hit = item.value;
+    }
+
+    if (item.checked && item.name === 'defence') {
+      attack.defence = item.value;
+    }
+
+    item.checked = false;
+  }
+
+  if (attack.hit !== enemy.defence) {
+    player1.changeHP(attack.value);
+  } else {
+    player1.changeHP(0);
+  }
+
+  if (attack.hit !== enemy.defence) {
+    player2.changeHP(attack.value);
+  } else {
+    player2.changeHP(0);
+  }
 
   player1.renderHP();
   player2.renderHP();
 
   if (player1.hp === 0 || player2.hp === 0) {
-    randomButton.disabled = true;
     arenas.append(createReloadButton());
-
-    const reloadButton = document.querySelector('.reloadWrap');
-    reloadButton.addEventListener('click', () => {
-      window.location.reload();
-    })
   }
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
@@ -126,6 +173,3 @@ randomButton.addEventListener('click', () => {
     arenas.append(playerWins());
   }
 });
-
-arenas.append(createPlayer(player1));
-arenas.append(createPlayer(player2));
