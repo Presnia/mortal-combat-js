@@ -3,7 +3,8 @@ const formFight = document.querySelector('.control');
 const chat = document.querySelector('.chat');
 
 const date = new Date();
-const time = `${date.getHours()}:${date.getMinutes()}`;
+const formateDigit = (n) => n < 10 ? '0' + n : n;
+const time = `${formateDigit(date.getHours())}:${formateDigit(date.getMinutes())}`;
 
 const HIT = {
     head: 30,
