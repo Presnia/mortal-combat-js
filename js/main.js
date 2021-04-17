@@ -2,7 +2,7 @@ const arenas = document.querySelector('.arenas');
 const formFight = document.querySelector('.control');
 const chat = document.querySelector('.chat');
 
-const date = new Date();
+let date = new Date();
 const formateDigit = (n) => n < 10 ? '0' + n : n;
 const time = `${formateDigit(date.getHours())}:${formateDigit(date.getMinutes())}`;
 
@@ -210,10 +210,14 @@ const showResult = () => {
 };
 
 const generateLogs = (type, player1, player2) => {
+  let date = new Date();
+  const formateDigit = (n) => n < 10 ? '0' + n : n;
+  const timeNow = `${formateDigit(date.getHours())}:${formateDigit(date.getMinutes())}`;
+
   const text = logs[type][getRandom(type.length)]
               .replace('[playerKick]', player1.name)
               .replace('[playerDefence]', player2.name);
-  const el = `<p>${time} - ${text}</p>`;
+  const el = `<p>${timeNow} - ${text}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
 };
 
