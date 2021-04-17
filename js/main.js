@@ -246,6 +246,7 @@ const logsCases = (type) => {
       break;
     case 'hit':
       generateLogs('hit', player1, player2);
+      break;
     case 'defence':
       generateLogs('defence', player1, player2);
       break;
