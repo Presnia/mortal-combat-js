@@ -212,7 +212,7 @@ const generateLogs = (type, player1, player2) => {
   const text = logs[type][getRandom(type.length)]
               .replace('[playerKick]', player1.name)
               .replace('[playerDefence]', player2.name);
-  const el = `<p>${text}</p>`;
+  const el = `<p>${time} - ${text}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
 };
 
