@@ -202,14 +202,14 @@ const showResult = () => {
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
     arenas.append(playerWins(player2.name));
-    logsCases('end', player2, player1);
+    logsCase('end', player2, player1);
   } else if (player2.hp === 0 && player2.hp < player1.hp) {
     arenas.append(playerWins(player1.name));
-    logsCases('end', player1, player2);
+    logsCase('end', player1, player2);
 
   } else if (player1.hp === 0 && player2.hp === 0) {
     arenas.append(playerWins());
-    logsCases('draw');
+    logsCase('draw');
   }
 };
 
@@ -247,7 +247,7 @@ const drawLog = (type) => {
   chat.insertAdjacentHTML("afterbegin", el);
 }
 
-const logsCases = (type) => {
+const logsCase = (type) => {
   switch (type) {
     case 'start':
       initialLog('start', player1, player2);
@@ -277,24 +277,24 @@ formFight.addEventListener('submit', e => {
   if (player.defence !== enemy.hit) {
     player1.changeHP(enemy.value);
     player1.renderHP();
-    logsCases('hit', player2, player1);
+    logsCase('hit', player2, player1);
   } 
 
   if (enemy.defence !== player.hit) {
     player2.changeHP(player.value);
     player2.renderHP();
-    logsCases('hit', player1, player2);
+    logsCase('hit', player1, player2);
   } 
 
   if (player.defence === enemy.hit) {
-    logsCases('defence', player2, player1);
+    logsCase('defence', player2, player1);
   }
 
   if (enemy.defence === player.hit) {
-    logsCases('defence', player1, player2);
+    logsCase('defence', player1, player2);
   }
 
   showResult();
 });
 
-logsCases('start');
+logsCase('start');
