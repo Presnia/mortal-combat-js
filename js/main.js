@@ -213,62 +213,45 @@ const showResult = () => {
   }
 };
 
-const generateLogs = (type, player1, player2) => {
-  time = getTime();
-
-  const text = logs[type][getRandom(type.length)]
-              .replace('[playerKick]', player1.name)
-              .replace('[playerDefence]', player2.name);
-  const el = `<p>${time} - ${text}</p>`;
-  chat.insertAdjacentHTML("afterbegin", el);
-};
-
-const initialLog = (type, player1, player2) => {
-  time = getTime();
-  
-  const text = logs[type]
-              .replace('[player1]', player1.name)
-              .replace('[player2]', player2.name)
-              .replace('[time]', time);
-  const el = `<p>${text}</p>`;
-  chat.insertAdjacentHTML("afterbegin", el);
-};
-
-const gameOverLog = (type, player1, player2) => {
-  const text = logs[type][getRandom(type.length)]
-              .replace('[playerWins]', player1.name)
-              .replace('[playerLose]', player2.name);
-  const el = `<p>${text}</p>`;
-  chat.insertAdjacentHTML("afterbegin", el);
-};
-
-const drawLog = (type) => {
-  const text = logs[type];
-  const el = `<p>${text}</p>`;
-  chat.insertAdjacentHTML("afterbegin", el);
-}
-
 const logsCase = (type) => {
+  time = getTime();
+  let logText = '';
+
+  let text = logs[type][getRandom(type.length - 1)]
+            .replace('[playerKick]', player1.name)
+            .replace('[playerDefence]', player2.name);
+
   switch (type) {
     case 'start':
-      initialLog('start', player1, player2);
+      logText = logs[type]
+                .replace('[player1]', player1.name)
+                .replace('[player2]', player2.name)
+                .replace('[time]', time);
       break;
     case 'hit':
-      generateLogs('hit', player1, player2);
+      logText = `${time} - ${text}`;
       break;
     case 'defence':
-      generateLogs('defence', player1, player2);
+      logText = `${time} - ${text}`;
       break;
     case 'end':
-      gameOverLog('end', player1, player2);
+      logText = logs[type][getRandom(type.length - 1)]
+                .replace('[playerWins]', player1.name)
+                .replace('[playerLose]', player2.name);
       break;
     case 'draw':
-      drawLog('draw');
+      logText = logs[type];
       break;
       default:
-        initialLog('start', player1, player2);
+        logText = logs[type]
+                .replace('[player1]', player1.name)
+                .replace('[player2]', player2.name)
+                .replace('[time]', time);
   } 
-}
+
+  const el = `<p>${logText}</p>`;
+  chat.insertAdjacentHTML("afterbegin", el);
+};
 
 formFight.addEventListener('submit', e => {
   e.preventDefault();
@@ -278,13 +261,13 @@ formFight.addEventListener('submit', e => {
   if (player.defence !== enemy.hit) {
     player1.changeHP(enemy.value);
     player1.renderHP();
-    logsCase('hit', player2, player1);
+    logsCase('hit', player1, player2);
   } 
 
   if (enemy.defence !== player.hit) {
     player2.changeHP(player.value);
     player2.renderHP();
-    logsCase('hit', player1, player2);
+    logsCase('hit', player2, player1);
   } 
 
   if (player.defence === enemy.hit) {
