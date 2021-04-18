@@ -2,9 +2,13 @@ const arenas = document.querySelector('.arenas');
 const formFight = document.querySelector('.control');
 const chat = document.querySelector('.chat');
 
-let date = new Date();
-const formateDigit = (n) => n < 10 ? '0' + n : n;
-const time = `${formateDigit(date.getHours())}:${formateDigit(date.getMinutes())}`;
+const getTime = () => {
+  let date = new Date();
+  const formateDigit = (n) => n < 10 ? '0' + n : n;
+  const time = `${formateDigit(date.getHours())}:${formateDigit(date.getMinutes())}`;
+
+  return time;
+};
 
 const HIT = {
     head: 30,
@@ -23,14 +27,14 @@ const logs = {
     ],
     hit: [
         '[playerDefence] пытался сконцентрироваться, но [playerKick] разбежавшись раздробил копчиком левое ухо врага.',
-        '[playerDefence] расстроился, как вдруг, неожиданно [playerKick] случайно раздробил грудью грудину противника.',
+        '[playerDefence] расстроился, как вдруг, неожиданно [playerKick] случайно раздробил локтем грудину противника.',
         '[playerDefence] зажмурился, а в это время [playerKick], прослезившись, раздробил кулаком пах оппонента.',
-        '[playerDefence] чесал <вырезано цензурой>, и внезапно неустрашимый [playerKick] отчаянно размозжил грудью левый бицепс оппонента.',
+        '[playerDefence] чесал <вырезано цензурой>, и внезапно неустрашимый [playerKick] отчаянно размозжил коленом левый бицепс оппонента.',
         '[playerDefence] задумался, но внезапно [playerKick] случайно влепил грубый удар копчиком в пояс оппонента.',
         '[playerDefence] ковырялся в зубах, но [playerKick] проснувшись влепил тяжелый удар пальцем в кадык врага.',
         '[playerDefence] вспомнил что-то важное, но внезапно [playerKick] зевнув, размозжил открытой ладонью челюсть противника.',
         '[playerDefence] осмотрелся, и в это время [playerKick] мимоходом раздробил стопой аппендикс соперника.',
-        '[playerDefence] кашлянул, но внезапно [playerKick] показав палец, размозжил пальцем грудь соперника.',
+        '[playerDefence] кашлянул, но внезапно [playerKick] показав палец, размозжил коленом грудь соперника.',
         '[playerDefence] пытался что-то сказать, а жестокий [playerKick] проснувшись размозжил копчиком левую ногу противника.',
         '[playerDefence] забылся, как внезапно безумный [playerKick] со скуки, влепил удар коленом в левый бок соперника.',
         '[playerDefence] поперхнулся, а за это [playerKick] мимоходом раздробил коленом висок врага.',
@@ -210,18 +214,18 @@ const showResult = () => {
 };
 
 const generateLogs = (type, player1, player2) => {
-  let date = new Date();
-  const formateDigit = (n) => n < 10 ? '0' + n : n;
-  const timeNow = `${formateDigit(date.getHours())}:${formateDigit(date.getMinutes())}`;
+  time = getTime();
 
   const text = logs[type][getRandom(type.length)]
               .replace('[playerKick]', player1.name)
               .replace('[playerDefence]', player2.name);
-  const el = `<p>${timeNow} - ${text}</p>`;
+  const el = `<p>${time} - ${text}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
 };
 
 const initialLog = (type, player1, player2) => {
+  time = getTime();
+  
   const text = logs[type]
               .replace('[player1]', player1.name)
               .replace('[player2]', player2.name).replace('[time]', time);
