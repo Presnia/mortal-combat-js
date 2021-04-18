@@ -228,7 +228,8 @@ const initialLog = (type, player1, player2) => {
   
   const text = logs[type]
               .replace('[player1]', player1.name)
-              .replace('[player2]', player2.name).replace('[time]', time);
+              .replace('[player2]', player2.name)
+              .replace('[time]', time);
   const el = `<p>${text}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
 };
