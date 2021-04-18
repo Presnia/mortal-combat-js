@@ -195,24 +195,6 @@ const playerAttack = () => {
   return attack;
 }
 
-const showResult = () => {
-  if (player1.hp === 0 || player2.hp === 0) {
-    arenas.append(createReloadButton());
-  }
-
-  if (player1.hp === 0 && player1.hp < player2.hp) {
-    arenas.append(playerWins(player2.name));
-    logsCase('end', player2, player1);
-  } else if (player2.hp === 0 && player2.hp < player1.hp) {
-    arenas.append(playerWins(player1.name));
-    logsCase('end', player1, player2);
-
-  } else if (player1.hp === 0 && player2.hp === 0) {
-    arenas.append(playerWins());
-    logsCase('draw');
-  }
-};
-
 const logsCase = (type) => {
   time = getTime();
   let logText = '';
@@ -251,6 +233,24 @@ const logsCase = (type) => {
 
   const el = `<p>${logText}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
+};
+
+const showResult = () => {
+  if (player1.hp === 0 || player2.hp === 0) {
+    arenas.append(createReloadButton());
+  }
+
+  if (player1.hp === 0 && player1.hp < player2.hp) {
+    arenas.append(playerWins(player2.name));
+    logsCase('end', player2, player1);
+  } else if (player2.hp === 0 && player2.hp < player1.hp) {
+    arenas.append(playerWins(player1.name));
+    logsCase('end', player1, player2);
+
+  } else if (player1.hp === 0 && player2.hp === 0) {
+    arenas.append(playerWins());
+    logsCase('draw');
+  }
 };
 
 formFight.addEventListener('submit', e => {
