@@ -68,19 +68,15 @@ formFight.addEventListener('submit', e => {
     player1.changeHP(enemy.value);
     player1.renderHP();
     logsCase('hit', player2, player1);
-  } 
+  } else {
+      logsCase('defence', player2, player1);
+  }
 
   if (enemy.defence !== player.hit) {
     player2.changeHP(player.value);
     player2.renderHP();
     logsCase('hit', player1, player2);
-  } 
-
-  if (player.defence === enemy.hit) {
-    logsCase('defence', player2, player1);
-  }
-
-  if (enemy.defence === player.hit) {
+  } else {
     logsCase('defence', player1, player2);
   }
 
