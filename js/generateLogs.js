@@ -5,7 +5,7 @@ import { getRandom } from './getRandom.js';
 
 const chat = document.querySelector('.chat');
 
-export const generateLogs = (type, player1, player2) => {
+const generateLogs = (type, player1, player2) => {
   const time = getTime();
 
   const text = logs[type][getRandom(type.length - 1)]
@@ -15,7 +15,7 @@ export const generateLogs = (type, player1, player2) => {
   chat.insertAdjacentHTML("afterbegin", el);
 };
 
-export const initialLog = (type, player1, player2) => {
+const initialLog = (type, player1, player2) => {
   const time = getTime();
   
   const text = logs[type]
@@ -26,7 +26,7 @@ export const initialLog = (type, player1, player2) => {
   chat.insertAdjacentHTML("afterbegin", el);
 };
 
-export const gameOverLog = (type, player1, player2) => {
+const gameOverLog = (type, player1, player2) => {
   const text = logs[type][getRandom(type.length - 1)]
               .replace('[playerWins]', player1.name)
               .replace('[playerLose]', player2.name);
@@ -34,7 +34,7 @@ export const gameOverLog = (type, player1, player2) => {
   chat.insertAdjacentHTML("afterbegin", el);
 };
 
-export const drawLog = (type) => {
+const drawLog = (type) => {
   const text = logs[type];
   const el = `<p>${text}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
