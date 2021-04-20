@@ -86,13 +86,13 @@ const player2 = {
   }
 };
 
-const createElement = (tag, className) => {
-  $tag = document.createElement(tag);
+function createElement(tag, className) {
+  tag = document.createElement(tag);
   if (className) {
-    $tag.classList.add(className);
+    tag.classList.add(className);
   }
   
-  return $tag;
+  return tag;
 }
 
 const createPlayer = (hero) => {
@@ -214,9 +214,9 @@ const showResult = () => {
 };
 
 const generateLogs = (type, player1, player2) => {
-  time = getTime();
+  const time = getTime();
 
-  const text = logs[type][getRandom(type.length)]
+  const text = logs[type][getRandom(type.length - 1)]
               .replace('[playerKick]', player1.name)
               .replace('[playerDefence]', player2.name);
   const el = `<p>${time} - ${text}</p>`;
@@ -224,7 +224,7 @@ const generateLogs = (type, player1, player2) => {
 };
 
 const initialLog = (type, player1, player2) => {
-  time = getTime();
+  const time = getTime();
   
   const text = logs[type]
               .replace('[player1]', player1.name)
@@ -235,7 +235,7 @@ const initialLog = (type, player1, player2) => {
 };
 
 const gameOverLog = (type, player1, player2) => {
-  const text = logs[type][getRandom(type.length)]
+  const text = logs[type][getRandom(type.length - 1)]
               .replace('[playerWins]', player1.name)
               .replace('[playerLose]', player2.name);
   const el = `<p>${text}</p>`;
