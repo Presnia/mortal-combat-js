@@ -58,6 +58,7 @@ export const logsCase = (type) => {
       drawLog('draw');
       break;
       default:
-        initialLog('start', player1, player2);
+        alert('The type of action is undefined');
+        break;
   } 
 };
