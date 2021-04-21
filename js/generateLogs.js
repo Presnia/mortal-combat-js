@@ -16,7 +16,7 @@ export const generateLogs = (type, player1, player2, valueAttack) => {
   chat.insertAdjacentHTML("afterbegin", el);
 };
 
-export const logsCase = (type, playerName1, playerName2) => {
+const logsCase = (type, playerName1, playerName2) => {
   switch (type) {
     case 'start':
       return logs[type].replace('[player1]', playerName1)
