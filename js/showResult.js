@@ -1,7 +1,7 @@
 import { player1, player2 } from './players.js';
 import { createReloadButton } from './createReloadButton.js';
 import { createElement } from './createElement.js';
-import { logsCase } from './generateLogs.js';
+import { generateLogs } from './generateLogs.js';
 
 const arenas = document.querySelector('.arenas');
 
@@ -23,13 +23,13 @@ export const showResult = () => {
 
   if (player1.hp === 0 && player1.hp < player2.hp) {
     arenas.append(playerWins(player2.name));
-    logsCase('end', player2, player1);
+    generateLogs('end', player2, player1);
   } else if (player2.hp === 0 && player2.hp < player1.hp) {
     arenas.append(playerWins(player1.name));
-    logsCase('end', player1, player2);
+    generateLogs('end', player1, player2);
 
   } else if (player1.hp === 0 && player2.hp === 0) {
     arenas.append(playerWins());
-    logsCase('draw');
+    generateLogs('draw');
   }
 };

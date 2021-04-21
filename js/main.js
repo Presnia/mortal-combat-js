@@ -1,8 +1,8 @@
 import { getRandom } from './getRandom.js';
-import { logsCase } from './generateLogs.js';
 import { player1, player2, HIT, ATTACK } from './players.js';
 import { showResult } from './showResult.js';
 import { createElement } from './createElement.js';
+import { generateLogs } from './generateLogs.js';
 
 const arenas = document.querySelector('.arenas');
 const formFight = document.querySelector('.control');
@@ -25,9 +25,6 @@ const createPlayer = (hero) => {
 
   return player;
 };
-
-arenas.append(createPlayer(player1));
-arenas.append(createPlayer(player2));
 
 function enemyAttack() {
   const hit = ATTACK[getRandom(3) - 1];
@@ -67,20 +64,27 @@ formFight.addEventListener('submit', e => {
   if (player.defence !== enemy.hit) {
     player1.changeHP(enemy.value);
     player1.renderHP();
-    logsCase('hit', player2, player1);
+    generateLogs('hit', player2, player1, enemy.value);
   } else {
-      logsCase('defence', player2, player1);
+      generateLogs('defence', player2, player1);
   }
 
   if (enemy.defence !== player.hit) {
     player2.changeHP(player.value);
     player2.renderHP();
-    logsCase('hit', player1, player2);
+    generateLogs('hit', player1, player2, player.value);
   } else {
-    logsCase('defence', player1, player2);
+    generateLogs('defence', player1, player2);
   }
 
   showResult();
 });
 
-logsCase('start');
+const init = () => {
+  arenas.append(createPlayer(player1));
+  arenas.append(createPlayer(player2));
+
+  generateLogs('start', player1, player2);
+};
+
+init();
