@@ -7,23 +7,23 @@ import { generateLogs } from './generateLogs.js';
 const arenas = document.querySelector('.arenas');
 const formFight = document.querySelector('.control');
 
-const createPlayer = (hero) => {
-  const player = createElement('div', `player${hero.player}`);
-  const progressBar = createElement('div', 'progressbar');
-  const character = createElement('div','character');
-  const life = createElement('div', 'life');
-  const name = createElement('div', 'name');
-  const image = createElement('img');
+const createPlayer = ({ player, name, hp, img }) => {
+  const $player = createElement('div', `player${player}`);
+  const $progressBar = createElement('div', 'progressbar');
+  const $character = createElement('div','character');
+  const $life = createElement('div', 'life');
+  const $name = createElement('div', 'name');
+  const $image = createElement('img');
 
-  life.style.width = `${hero.hp}%`;
-  name.innerText = hero.name;
-  image.src = hero.img;
+  $life.style.width = `${hp}%`;
+  $name.innerText = name;
+  $image.src = img;
   
-  progressBar.append(life, name);
-  character.append(image);
-  player.append(progressBar, character);
+  $progressBar.append($life, $name);
+  $character.append($image);
+  $player.append($progressBar, $character);
 
-  return player;
+  return $player;
 };
 
 function enemyAttack() {
@@ -58,21 +58,21 @@ const playerAttack = () => {
 
 formFight.addEventListener('submit', e => {
   e.preventDefault();
-  const enemy = enemyAttack();
-  const player = playerAttack();
+  const { hit: hitEnemy, defence: defenceEnemy, value: valueEnemy } = enemyAttack();
+  const {hit, defence, value} = playerAttack();
 
-  if (player.defence !== enemy.hit) {
-    player1.changeHP(enemy.value);
+  if (defence !== hitEnemy) {
+    player1.changeHP(valueEnemy);
     player1.renderHP();
-    generateLogs('hit', player2, player1, enemy.value);
+    generateLogs('hit', player2, player1, valueEnemy);
   } else {
       generateLogs('defence', player2, player1);
   }
 
-  if (enemy.defence !== player.hit) {
-    player2.changeHP(player.value);
+  if (defenceEnemy !== hit) {
+    player2.changeHP(value);
     player2.renderHP();
-    generateLogs('hit', player1, player2, player.value);
+    generateLogs('hit', player1, player2, value);
   } else {
     generateLogs('defence', player1, player2);
   }

@@ -6,11 +6,11 @@ const chat = document.querySelector('.chat');
 
 const time = getTime();
 
-export const generateLogs = (type, player1, player2, valueAttack) => {
-  let text = logsCase(type, player1.name, player2.name);
+export const generateLogs = (type, { name } = {}, { name: playerName2, hp } = {}, valueAttack) => {
+  let text = logsCase(type, name, playerName2);
 
   if (type === 'hit') {
-    text = `${text} -${valueAttack} [${player2.hp}/100]`;
+    text = `${text} -${valueAttack} [${hp}/100]`;
   }
   const el = `<p>${text}</p>`;
   chat.insertAdjacentHTML("afterbegin", el);
