@@ -1,7 +1,7 @@
 import Player from './Player/index.js';
 import { changeHP, elHP, renderHP } from './playerHelpers.js'
 
-export const player1 = new Player({
+const player1 = new Player({
   player: 1,
   changeHP,
   renderHP,
@@ -16,7 +16,7 @@ export const player1 = new Player({
   }
 });
 
-export const player2 = new Player({
+const player2 = new Player({
   player: 2,
   changeHP,
   renderHP,
@@ -30,3 +30,5 @@ export const player2 = new Player({
     console.log(this.name + 'Fight...');
   }
 });
+
+export { player1, player2 };
