@@ -1,30 +1,11 @@
-import { getRandom } from './getRandom.js';
-import { player1, player2, HIT, ATTACK } from './players.js';
+import { getRandom, createElement } from './Helpers/index.js';
+import { HIT, ATTACK } from './Constants/index.js';
+import Player from './Player/index.js';
+import { player1, player2 } from './players.js';
 import { showResult } from './showResult.js';
-import { createElement } from './createElement.js';
 import { generateLogs } from './generateLogs.js';
 
-const arenas = document.querySelector('.arenas');
 const formFight = document.querySelector('.control');
-
-const createPlayer = ({ player, name, hp, img }) => {
-  const $player = createElement('div', `player${player}`);
-  const $progressBar = createElement('div', 'progressbar');
-  const $character = createElement('div','character');
-  const $life = createElement('div', 'life');
-  const $name = createElement('div', 'name');
-  const $image = createElement('img');
-
-  $life.style.width = `${hp}%`;
-  $name.innerText = name;
-  $image.src = img;
-  
-  $progressBar.append($life, $name);
-  $character.append($image);
-  $player.append($progressBar, $character);
-
-  return $player;
-};
 
 function enemyAttack() {
   const hit = ATTACK[getRandom(3) - 1];
@@ -81,8 +62,8 @@ formFight.addEventListener('submit', e => {
 });
 
 const init = () => {
-  arenas.append(createPlayer(player1));
-  arenas.append(createPlayer(player2));
+  player1.createPlayer();
+  player2.createPlayer();
 
   generateLogs('start', player1, player2);
 };

@@ -1,6 +1,5 @@
-import { logs } from './logs.js';
-import { getTime } from './time.js';
-import { getRandom } from './getRandom.js';
+import { LOGS } from './Constants/index.js';
+import { getRandom, getTime } from './Helpers/index.js';
 
 const chat = document.querySelector('.chat');
 
@@ -19,27 +18,27 @@ export const generateLogs = (type, { name } = {}, { name: playerName2, hp } = {}
 const logsCase = (type, playerName1, playerName2) => {
   switch (type) {
     case 'start':
-      return logs[type].replace('[player1]', playerName1)
+      return LOGS[type].replace('[player1]', playerName1)
                         .replace('[player2]', playerName2)
                         .replace('[time]', time);
       break;
     case 'hit':
-      return logs[type][getRandom(logs[type].length - 1) - 1]
+      return LOGS[type][getRandom(LOGS[type].length - 1) - 1]
               .replace('[playerKick]', playerName1)
               .replace('[playerDefence]', playerName2);
       break;
     case 'defence':
-      return logs[type][getRandom(logs[type].length - 1) - 1]
+      return LOGS[type][getRandom(LOGS[type].length - 1) - 1]
               .replace('[playerKick]', playerName1)
               .replace('[playerDefence]', playerName2);
       break;
     case 'end':
-    return logs[type][getRandom(logs[type].length - 1) - 1]
+    return LOGS[type][getRandom(LOGS[type].length - 1) - 1]
               .replace('[playerWins]', playerName1)
               .replace('[playerLose]', playerName2);
       break;
     case 'draw':
-      return logs[type];
+      return LOGS[type];
       break;
       default:
         alert('The type of action is undefined');

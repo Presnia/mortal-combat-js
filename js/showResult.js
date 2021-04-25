@@ -1,6 +1,6 @@
 import { player1, player2 } from './players.js';
 import { createReloadButton } from './createReloadButton.js';
-import { createElement } from './createElement.js';
+import { createElement } from './Helpers/index.js';
 import { generateLogs } from './generateLogs.js';
 
 const arenas = document.querySelector('.arenas');

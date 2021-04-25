@@ -1,14 +1,7 @@
+import Player from './Player/index.js';
 import { changeHP, elHP, renderHP } from './playerHelpers.js'
 
-export const HIT = {
-    head: 30,
-    body: 25,
-    foot: 20,
-};
-
-export const ATTACK = ['head', 'body', 'foot'];
-
-export const player1 = {
+export const player1 = new Player({
   player: 1,
   changeHP,
   renderHP,
@@ -16,13 +9,14 @@ export const player1 = {
   name: 'Scorpion',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
+  rootSelector: 'arenas',
   weapon: ['sabre of light', 'sawblade', 'sword', 'sai', 'sektors rocket'],
   attack: () => {
     console.log(this.name + 'Fight...');
   }
-};
+});
 
-export const player2 = {
+export const player2 = new Player({
   player: 2,
   changeHP,
   renderHP,
@@ -30,8 +24,9 @@ export const player2 = {
   name: 'Kitana',
   hp: 100,
   img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
+  rootSelector: 'arenas',
   weapon: ['kitana', 'sword', 'sai', 'sento', 'saber teeth'],
   attack: () => {
     console.log(this.name + 'Fight...');
   }
-};
+});
