@@ -1,5 +1,4 @@
 import { createElement } from '../Helpers/index.js';
-
 class Player {
   constructor(props) {
     this.name = props.name;
