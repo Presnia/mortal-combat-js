@@ -9,15 +9,7 @@ class Player {
     this.rootSelector = props.rootSelector;
   }
 
-  changeHP = (num) => {
-    this.hp -= num;
-
-    if (this.hp <= 0) {
-      this.hp = 0;
-    }
-
-    return this.hp;
-  };
+  changeHP = (num) => this.hp > num ? this.hp -= num : this.hp = 0;
 
   elHP = () => {
     const playerLife = document.querySelector(`.${this.selector} .life`);
