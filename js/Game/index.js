@@ -2,6 +2,7 @@ import { player1, player2 } from '../players.js';
 import { HIT, ATTACK } from '../Constants/index.js';
 import { showResult } from '../showResult.js';
 import { generateLogs } from '../generateLogs.js';
+import { getRandom } from '../Helpers/index.js'
 
 class Game {
   constructor() {
@@ -11,6 +12,7 @@ class Game {
     this.ATTACK = ATTACK;
     this.showResult = showResult;
     this.generateLogs = generateLogs;
+    this.getRandom = getRandom;
   }
 
   formFight = document.querySelector('.control');
@@ -29,7 +31,7 @@ class Game {
   playerAttack = () => {
     const attack = {};
 
-    for (let item of formFight) {
+    for (let item of this.formFight) {
       if (item.checked && item.name === 'hit') {
         attack.value = getRandom(HIT[item.value]);
         attack.hit = item.value;
@@ -48,26 +50,26 @@ class Game {
   formListener = () => {
     this.formFight.addEventListener('submit', e => {
       e.preventDefault();
-      const { hit: hitEnemy, defence: defenceEnemy, value: valueEnemy } = enemyAttack();
-      const {hit, defence, value} = playerAttack();
+      const { hit: hitEnemy, defence: defenceEnemy, value: valueEnemy } = this.enemyAttack();
+      const {hit, defence, value} = this.playerAttack();
 
       if (defence !== hitEnemy) {
         player1.changeHP(valueEnemy);
         player1.renderHP();
-        generateLogs('hit', player2, player1, valueEnemy);
+        this.generateLogs('hit', player2, player1, valueEnemy);
       } else {
-          generateLogs('defence', player2, player1);
+          this.generateLogs('defence', player2, player1);
       }
 
       if (defenceEnemy !== hit) {
         player2.changeHP(value);
         player2.renderHP();
-        generateLogs('hit', player1, player2, value);
+        this.generateLogs('hit', player1, player2, value);
       } else {
-        generateLogs('defence', player1, player2);
+        this.generateLogs('defence', player1, player2);
       }
 
-      showResult();
+      this.showResult();
     });
   }
 
@@ -77,7 +79,7 @@ class Game {
     player1.createPlayer();
     player2.createPlayer();
 
-    generateLogs('start', player1, player2);
+    this.generateLogs('start', player1, player2);
   };
 };
 
