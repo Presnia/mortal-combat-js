@@ -1,7 +1,7 @@
 import { HIT, ATTACK } from '../Constants/index.js';
-import { showResult } from '../showResult.js';
 import { generateLogs } from '../generateLogs.js';
-import { getRandom } from '../Helpers/index.js'
+import { getRandom, createElement } from '../Helpers/index.js';
+import { createReloadButton } from '../createReloadButton.js';
 import Player from '../Player/index.js';
 
 class Game {
@@ -22,9 +22,10 @@ class Game {
     });
     this.HIT = HIT;
     this.ATTACK = ATTACK;
-    this.showResult = showResult;
     this.generateLogs = generateLogs;
     this.getRandom = getRandom;
+    this.createReloadButton = createReloadButton;
+    this.createElement = createElement;
   }
 
   formFight = document.querySelector('.control');
@@ -66,24 +67,55 @@ class Game {
       const {hit, defence, value} = this.playerAttack();
 
       if (defence !== hitEnemy) {
-        player1.changeHP(valueEnemy);
-        player1.renderHP();
-        this.generateLogs('hit', player2, player1, valueEnemy);
+        this.player1.changeHP(valueEnemy);
+        this.player1.renderHP();
+        this.generateLogs('hit', this.player2, this.player1, valueEnemy);
       } else {
-          this.generateLogs('defence', player2, player1);
+          this.generateLogs('defence', this.player2, this.player1);
       }
 
       if (defenceEnemy !== hit) {
-        player2.changeHP(value);
-        player2.renderHP();
-        this.generateLogs('hit', player1, player2, value);
+        this.player2.changeHP(value);
+        this.player2.renderHP();
+        this.generateLogs('hit', this.player1, this.player2, value);
       } else {
-        this.generateLogs('defence', player1, player2);
+        this.generateLogs('defence', this.player1, this.player2);
       }
 
       this.showResult();
     });
-  }
+  };
+
+  arenas = document.querySelector('.arenas');
+
+  playerWins(name) {
+    const winsTitle = this.createElement('div', 'winsTitle');
+    if (name) {
+      winsTitle.innerText = `${name} wins`;
+    } else {
+      winsTitle.innerText = 'draw';
+    }
+    
+    return winsTitle;
+  };
+
+  showResult = () => {
+    if (this.player1.hp === 0 || this.player2.hp === 0) {
+      this.arenas.append(this.createReloadButton());
+    }
+
+    if (this.player1.hp === 0 && this.player1.hp < this.player2.hp) {
+      this.arenas.append(this.playerWins(this.player2.name));
+      this.generateLogs('end', this.player2, this.player1);
+    } else if (this.player2.hp === 0 && this.player2.hp < this.player1.hp) {
+      this.arenas.append(this.playerWins(this.player1.name));
+      this.generateLogs('end', this.player1, this.player2);
+
+    } else if (this.player1.hp === 0 && this.player2.hp === 0) {
+      this.arenas.append(this.playerWins());
+      this.generateLogs('draw');
+    }
+  };
 
   start = () => {
     this.formListener();
