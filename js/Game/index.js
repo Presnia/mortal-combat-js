@@ -1,13 +1,25 @@
-import { player1, player2 } from '../players.js';
 import { HIT, ATTACK } from '../Constants/index.js';
 import { showResult } from '../showResult.js';
 import { generateLogs } from '../generateLogs.js';
 import { getRandom } from '../Helpers/index.js'
+import Player from '../Player/index.js';
 
 class Game {
   constructor() {
-    this.player1 = player1;
-    this.player2 = player2;
+    this.player1 = new Player({
+      player: 1,
+      name: 'Scorpion',
+      hp: 100,
+      img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
+      rootSelector: 'arenas',
+    });
+    this.player2 = new Player({
+      player: 2,
+      name: 'Kitana',
+      hp: 100,
+      img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
+      rootSelector: 'arenas',
+    });
     this.HIT = HIT;
     this.ATTACK = ATTACK;
     this.showResult = showResult;
@@ -76,10 +88,10 @@ class Game {
   start = () => {
     this.formListener();
 
-    player1.createPlayer();
-    player2.createPlayer();
+    this.player1.createPlayer();
+    this.player2.createPlayer();
 
-    this.generateLogs('start', player1, player2);
+    this.generateLogs('start', this.player1, this.player2);
   };
 };
 
