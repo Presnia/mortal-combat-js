@@ -1,11 +1,12 @@
 import { HIT, ATTACK } from '../Constants/index.js';
 import { generateLogs } from '../generateLogs.js';
 import { getRandom, createElement } from '../Helpers/index.js';
-import { createReloadButton } from '../createReloadButton.js';
+import Arena from '../Arena/index.js';
 import Player from '../Player/index.js';
 
-class Game {
+export default class Game extends Arena {
   constructor() {
+    super()
     this.player1 = new Player({
       player: 1,
       name: 'Scorpion',
@@ -24,11 +25,8 @@ class Game {
     this.ATTACK = ATTACK;
     this.generateLogs = generateLogs;
     this.getRandom = getRandom;
-    this.createReloadButton = createReloadButton;
     this.createElement = createElement;
   }
-
-  formFight = document.querySelector('.control');
 
   enemyAttack() {
     const hit = ATTACK[getRandom(3) - 1];
@@ -86,8 +84,6 @@ class Game {
     });
   };
 
-  arenas = document.querySelector('.arenas');
-
   playerWins(name) {
     const winsTitle = this.createElement('div', 'winsTitle');
     if (name) {
@@ -127,4 +123,3 @@ class Game {
   };
 };
 
-export default Game;
