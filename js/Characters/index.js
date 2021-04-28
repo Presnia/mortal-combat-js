@@ -1,48 +1,25 @@
-export const characters = [
-    {
-        name: 'scorpion',
-        hp: 100,
-        img: 'https://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-        weapon: [ 'low punch', 'high punch', 'low kick', 'high kick', 'sword', ],
-        attack: function(){
-            console.log(this.name + ' Fight...')
-        },
-    },
-    {
-        name: 'kitana',
-        hp: 100,
-        img: 'https://reactmarathon-api.herokuapp.com/assets/kitana.gif',
-        weapon: [ 'low punch', 'high punch', 'low kick', 'high kick', 'sword', ],
-        attack: function(){
-            console.log(this.name + ' Fight...')
-        },
-    },
-    {
-        name: 'liu kang',
-        hp: 100,
-        img: 'https://reactmarathon-api.herokuapp.com/assets/liukang.gif',
-        weapon: [ 'low punch', 'high punch', 'low kick', 'high kick', 'sword', ],
-        attack: function(){
-            console.log(this.name + ' Fight...')
-        },
-    },
-    {
-        name: 'sonya',
-        hp: 100,
-        img: 'https://reactmarathon-api.herokuapp.com/assets/sonya.gif',
-        weapon: [ 'low punch', 'high punch', 'low kick', 'high kick', 'sword', ],
-        attack: function(){
-            console.log(this.name + ' Fight...')
-        },
-    },
-    {
-        name: 'sub-zero',
-        hp: 100,
-        img: 'https://reactmarathon-api.herokuapp.com/assets/subzero.gif',
-        weapon: [ 'low punch', 'high punch', 'low kick', 'high kick', 'sword', ],
-        attack: function(){
-            console.log(this.name + ' Fight...')
-        },
-    },
+const getAllPlayers = async () => {
+    const characters = fetch('https://reactmarathon-api.herokuapp.com/api/mk/players')
+                        .then(res => res.json());
+    return characters;
+};
 
-]
+const getRandomPlayer = async () => {
+    const characters = fetch('https://reactmarathon-api.herokuapp.com/api/mk/player/choose')
+                        .then(res => res.json());
+    return characters;
+};
+
+const getAttack = async () => {
+    attack = fetch('http://reactmarathon-api.herokuapp.com/api/mk/player/fight', {
+        method: 'POST',
+        body: JSON.stringify({
+            hit,
+            defence,
+        })
+    }).then(res => res.json());
+
+    return attack;
+};
+
+export { getAllPlayers, getRandomPlayer, getAttack };

@@ -2,25 +2,18 @@ import { HIT, ATTACK } from '../Constants/index.js';
 import { generateLogs } from '../generateLogs.js';
 import { getRandom, createElement } from '../Helpers/index.js';
 import Arena from '../Arena/index.js';
+import { getAllPlayers, getRandomPlayer, getAttack } from '../Characters/index.js';
 import Player from '../Player/index.js';
+
+let player1;
+let player2;
 
 export default class Game extends Arena {
   constructor() {
     super()
-    this.player1 = new Player({
-      player: 1,
-      name: 'Scorpion',
-      hp: 100,
-      img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
-      rootSelector: 'arenas',
-    });
-    this.player2 = new Player({
-      player: 2,
-      name: 'Kitana',
-      hp: 100,
-      img: 'http://reactmarathon-api.herokuapp.com/assets/kitana.gif',
-      rootSelector: 'arenas',
-    });
+    this.getAllPlayers = getAllPlayers;
+    this.getRandomPlayer = getRandomPlayer;
+    this.getAttack = getAttack;
     this.HIT = HIT;
     this.ATTACK = ATTACK;
     this.generateLogs = generateLogs;
@@ -65,19 +58,19 @@ export default class Game extends Arena {
       const {hit, defence, value} = this.playerAttack();
 
       if (defence !== hitEnemy) {
-        this.player1.changeHP(valueEnemy);
-        this.player1.renderHP();
-        this.generateLogs('hit', this.player2, this.player1, valueEnemy);
+        player1.changeHP(valueEnemy);
+        player1.renderHP();
+        this.generateLogs('hit', player2, player1, valueEnemy);
       } else {
-          this.generateLogs('defence', this.player2, this.player1);
+          this.generateLogs('defence', player2, player1);
       }
 
       if (defenceEnemy !== hit) {
-        this.player2.changeHP(value);
-        this.player2.renderHP();
-        this.generateLogs('hit', this.player1, this.player2, value);
+        player2.changeHP(value);
+        player2.renderHP();
+        this.generateLogs('hit', player1, player2, value);
       } else {
-        this.generateLogs('defence', this.player1, this.player2);
+        this.generateLogs('defence', player1, player2);
       }
 
       this.showResult();
@@ -96,30 +89,47 @@ export default class Game extends Arena {
   };
 
   showResult = () => {
-    if (this.player1.hp === 0 || this.player2.hp === 0) {
+    if (player1.hp === 0 || player2.hp === 0) {
       this.arenas.append(this.createReloadButton());
     }
 
-    if (this.player1.hp === 0 && this.player1.hp < this.player2.hp) {
-      this.arenas.append(this.playerWins(this.player2.name));
-      this.generateLogs('end', this.player2, this.player1);
-    } else if (this.player2.hp === 0 && this.player2.hp < this.player1.hp) {
-      this.arenas.append(this.playerWins(this.player1.name));
-      this.generateLogs('end', this.player1, this.player2);
+    if (player1.hp === 0 && player1.hp < player2.hp) {
+      this.arenas.append(this.playerWins(player2.name));
+      this.generateLogs('end', player2, player1);
+    } else if (player2.hp === 0 && player2.hp < player1.hp) {
+      this.arenas.append(this.playerWins(player1.name));
+      this.generateLogs('end', player1, player2);
 
-    } else if (this.player1.hp === 0 && this.player2.hp === 0) {
+    } else if (player1.hp === 0 && player2.hp === 0) {
       this.arenas.append(this.playerWins());
       this.generateLogs('draw');
     }
   };
 
-  start = () => {
+  start = async () => {
     this.formListener();
 
-    this.player1.createPlayer();
-    this.player2.createPlayer();
+    const players = await this.getAllPlayers();
+    const player = await this.getRandomPlayer();
 
-    this.generateLogs('start', this.player1, this.player2);
+    const p1 = players[getRandom(players.length) - 1];
+    const p2 = player;
+
+    player1 = new Player({
+      ...p1,
+      player: 1,
+      rootSelector: 'arenas',
+    });
+    player2 = new Player({
+      ...p2,
+      player: 2,
+      rootSelector: 'arenas',
+    });
+
+    player1.createPlayer();
+    player2.createPlayer();
+
+    this.generateLogs('start', player1, player2);
   };
 };
 
