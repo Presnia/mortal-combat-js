@@ -17,7 +17,9 @@ const getAttack = async () => {
             hit,
             defence,
         })
-    });
+    }).then(res => res.json());
+
+    return attack;
 };
 
 export { getAllPlayers, getRandomPlayer, getAttack };

@@ -2,7 +2,7 @@ import { HIT, ATTACK } from '../Constants/index.js';
 import { generateLogs } from '../generateLogs.js';
 import { getRandom, createElement } from '../Helpers/index.js';
 import Arena from '../Arena/index.js';
-import { getAllPlayers, getRandomPlayer } from '../Characters/index.js';
+import { getAllPlayers, getRandomPlayer, getAttack } from '../Characters/index.js';
 import Player from '../Player/index.js';
 
 let player1;
@@ -13,6 +13,7 @@ export default class Game extends Arena {
     super()
     this.getAllPlayers = getAllPlayers;
     this.getRandomPlayer = getRandomPlayer;
+    this.getAttack = getAttack;
     this.HIT = HIT;
     this.ATTACK = ATTACK;
     this.generateLogs = generateLogs;
