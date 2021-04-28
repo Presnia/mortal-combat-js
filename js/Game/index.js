@@ -2,7 +2,7 @@ import { HIT, ATTACK } from '../Constants/index.js';
 import { generateLogs } from '../generateLogs.js';
 import { getRandom, createElement } from '../Helpers/index.js';
 import Arena from '../Arena/index.js';
-import { getAllPlayers } from '../Characters/index.js';
+import { getAllPlayers, getRandomPlayer } from '../Characters/index.js';
 import Player from '../Player/index.js';
 
 let player1;
@@ -12,6 +12,7 @@ export default class Game extends Arena {
   constructor() {
     super()
     this.getAllPlayers = getAllPlayers;
+    this.getRandomPlayer = getRandomPlayer;
     this.HIT = HIT;
     this.ATTACK = ATTACK;
     this.generateLogs = generateLogs;
@@ -108,9 +109,10 @@ export default class Game extends Arena {
     this.formListener();
 
     const players = await this.getAllPlayers();
+    const player = await this.getRandomPlayer();
 
     const p1 = players[getRandom(players.length) - 1];
-    const p2 = players[getRandom(players.length) - 1];
+    const p2 = player;
 
     player1 = new Player({
       ...p1,
